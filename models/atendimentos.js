@@ -71,12 +71,13 @@ class Atendimento {
     }
 
     /*METODO -> GET - LISTA APENAS 1 ATENDIMENTO PESQUISADO POR ID */
-    buscaPorId(id, valores, res) {
-        const sql = `SELECT * FROM Atendimentos WHERE id = ${id}`;
+    buscaPorId(id, res) {
 
-    /*QUERY UTILIZADO [``] CRASE EM VEZ DE ASPAS SIMPLES, POIS ESTÁ PASSANDO O PARAMETRO DO ID NA CLAUSULA WHERE */
+        /*QUERY UTILIZADO [``] CRASE EM VEZ DE ASPAS SIMPLES, POIS ESTÁ PASSANDO O PARAMETRO DO ID NA CLAUSULA WHERE */
+        const sql = `SELECT * FROM Atendimentos WHERE id = ${id}`;
+    
         conection.query(sql, (erro, resultados) => {
-            const atendimento = resultados[0];
+            const atendimento = resultados[0]
             if (erro) {
                 res.status(400).json(erro)
             } else {
@@ -98,12 +99,25 @@ class Atendimento {
             if (erro) {
                 res.status(400).json(erro)
             } else {
-                res.status(200).json(resultados)
+                res.status(200).json({...valores, id})
             }
 
         })
 
+    }
 
+    /*METODO -> DELETE - EXCLUI UM ATENDIMENTO DESEJADO */
+    deleta(id, res){
+       const sql = 'DELETE FROM Atendimentos WHERE id = ?'
+
+       conection.query(sql, id, (erro, resultados) => {
+           if (erro) {
+               res.status(400).json(erro)
+           } else {
+               res.status(200).json({id})
+           }
+
+       })
     }
 }
 

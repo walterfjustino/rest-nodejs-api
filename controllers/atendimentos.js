@@ -28,11 +28,20 @@ module.exports = app => {
             
         })
 
+    /*METODO PATCH - ALTERA APENAS UM DETERMINADO CAMPO INFORMADO*/
     app.patch('/atendimentos/:id', (req, res) => {
         const id = parseInt(req.params.id) /*Converte id de String para Inteiro para salvar no Banco de dados*/
         const valores = req.body
 
         Atendimento.altera(id, valores, res)
     })
+
+    /*METODO DELETE - EXCLUIU UM ATENDIMENTO PASSANDO O ID */
+    app.delete('/atendimentos/:id', (req, res) => {
+        const id = parseInt(req.params.id) /*Converte id de String para Inteiro para salvar no Banco de dados*/
+
+        Atendimento.deleta(id, res)
+    })
+
 
 }
