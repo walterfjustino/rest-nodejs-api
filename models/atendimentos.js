@@ -4,10 +4,13 @@ const conection = require('../infraestructure/conection')
 
 
 class Atendimento {
+
+    /*METODO -> POST - CRIA UM ATENDIMENTO*/
     adiciona(atendimento, res){
         const dataCriacao = moment().format('YYYY-MM-DD HH:MM:SS')
         
-        const data = moment(atendimento.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS')
+        /*FAZ A CONVERSÃO DO PADRÃO DE DATA INFORMADO PELO USUÁRIO PARA O QUE VAI SER SALVO NO BANCO DE DADOS */
+        const data = moment(atendimento.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS') 
 
         const dataEhValida = moment(data).isSameOrAfter(dataCriacao) /*RETORNA UM TRUE OU FALSE */
 
@@ -50,7 +53,57 @@ class Atendimento {
 
         })
      }
-     
+
+    }
+
+    /*METODO -> GET - LISTA TODOS ATENDIMENTOS */
+    lista(res) {
+        const sql = 'SELECT * FROM Atendimentos'
+
+        conection.query(sql, (erro, resultados) => {
+            if (erro) {
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json(resultados)
+            }
+        })
+
+    }
+
+    /*METODO -> GET - LISTA APENAS 1 ATENDIMENTO PESQUISADO POR ID */
+    buscaPorId(id, valores, res) {
+        const sql = `SELECT * FROM Atendimentos WHERE id = ${id}`;
+
+    /*QUERY UTILIZADO [``] CRASE EM VEZ DE ASPAS SIMPLES, POIS ESTÁ PASSANDO O PARAMETRO DO ID NA CLAUSULA WHERE */
+        conection.query(sql, (erro, resultados) => {
+            const atendimento = resultados[0];
+            if (erro) {
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json(atendimento)                
+            }
+        })
+    }
+
+    /*METODO -> PATCH - ALTERA UM CAMPO DESEJADO PELO USUARIO DO ATENDIMENTO */
+    altera(id, valores, res) {
+        if (valores.data) {
+             /*FAZ A CONVERSÃO DO PADRÃO DE DATA INFORMADO PELO USUÁRIO PARA O QUE VAI SER SALVO NO BANCO DE DADOS */
+             valores.data = moment(valores.data, 'DD/MM/YYYY').format('YYYY-MM-DD HH:MM:SS') 
+        }    
+    /*ALTERA OS VALORES NA TABELA ATENDIMENTO ?[significa que será os valores informados pelo usuario] */
+        const sql = 'UPDATE Atendimentos SET ? WHERE id = ?' 
+
+        conection.query(sql, [valores, id], (erro, resultados) => {
+            if (erro) {
+                res.status(400).json(erro)
+            } else {
+                res.status(200).json(resultados)
+            }
+
+        })
+
+
     }
 }
 
