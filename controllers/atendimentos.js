@@ -36,7 +36,7 @@ module.exports = app => {
         Atendimento.altera(id, valores, res)
     })
 
-    /*METODO DELETE - EXCLUIU UM ATENDIMENTO PASSANDO O ID */
+    /*METODO DELETE - EXCLUI UM ATENDIMENTO PASSANDO O ID */
     app.delete('/atendimentos/:id', (req, res) => {
         const id = parseInt(req.params.id) /*Converte id de String para Inteiro para salvar no Banco de dados*/
 
