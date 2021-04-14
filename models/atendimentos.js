@@ -14,7 +14,7 @@ class Atendimento {
 
         const dataEhValida = moment(data).isSameOrAfter(dataCriacao) /*RETORNA UM TRUE OU FALSE */
 
-        const clienteEhValido = atendimento.cliente.length >= 5 /*RETORNA UM TRUE OU FALSE */
+        const clienteEhValido = atendimento.cliente.length >= 3 /*RETORNA UM TRUE OU FALSE */
 
         /* FUNÇÃO DE ARRAY QUE RETORNA AS VALIDAÇÕES DE ERRO TRATADAS */
         const validacoes = [
@@ -26,7 +26,7 @@ class Atendimento {
             {
                 nome:'cliente',
                 valido: clienteEhValido,
-                mensagem:'Cliente deve ter pelo menos 5 caracteres'
+                mensagem:'Cliente deve ter pelo menos 3 caracteres'
             }
         ]
 
@@ -121,4 +121,4 @@ class Atendimento {
     }
 }
 
-module.exports = new Atendimento
+module.exports = new Atendimento()
