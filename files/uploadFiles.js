@@ -1,6 +1,6 @@
 
 const fs = require('fs')
-    const path = require('path')
+const path = require('path')
 
 module.exports = (caminho, nomeDoArquivo, callbackImageCreated) => {
     const tiposValidos = ['jpg', 'png', 'jpeg']

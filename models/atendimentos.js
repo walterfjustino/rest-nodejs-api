@@ -1,5 +1,5 @@
 const moment = require('moment')
-
+const axios = require('axios')
 const conection = require('../infraestructure/conection')
 
 
@@ -76,11 +76,14 @@ class Atendimento {
         /*QUERY UTILIZADO [``] CRASE EM VEZ DE ASPAS SIMPLES, POIS ESTÁ PASSANDO O PARAMETRO DO ID NA CLAUSULA WHERE */
         const sql = `SELECT * FROM Atendimentos WHERE id = ${id}`;
     
-        conection.query(sql, (erro, resultados) => {
+        conection.query(sql, async (erro, resultados) => {
             const atendimento = resultados[0]
+            const cpf = atendimento.cliente
             if (erro) {
                 res.status(400).json(erro)
             } else {
+                const { data } = await axios.get(`http://localhost:8082/${cpf}`)
+                atendimento.cliente = data
                 res.status(200).json(atendimento)                
             }
         })
